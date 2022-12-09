@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Task List</string>
     <string name="title_activity_add_edit">Add Edit</string>
+    <string name="task">Task</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="no_repeat">No repeat</string>
 </resources>

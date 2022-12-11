@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import com.example.tasklist.data.Task
 import com.example.tasklist.database.Database
 import com.example.tasklist.databinding.ActivityAddEditBinding
 import com.example.tasklist.viewmodel.AddEditViewModel
@@ -26,6 +27,8 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var viewModel: AddEditViewModel
 
     private lateinit var database: Database
+
+    private var task: Task? = null
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +55,10 @@ class AddEditActivity : AppCompatActivity() {
         } else {
             "Edit"
         }
+
+        intent.extras?.getInt("id")
+            ?.let { database.readTask(it) }
+            ?.let { task = it }
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

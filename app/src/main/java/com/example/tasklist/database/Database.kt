@@ -80,4 +80,8 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return results
     }
 
+    fun readTask(id: Int) : Task? {
+        return null
+    }
+
 }

@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
         val recyclerview = findViewById<RecyclerView>(R.id.recycler)
         val onItemClickListener = object : OnItemClickListener {
             override fun onClick(position: Int) {
-                val q = ""
+                val task = listOfTasks[position]
+                val intent = Intent(this@MainActivity, AddEditActivity::class.java)
+                intent.putExtra("id", task.id)
+                startActivity(intent)
             }
         }
         adapter = TaskAdapter(listOfTasks, onItemClickListener)

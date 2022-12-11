@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.example.tasklist.databinding.ActivityAddEditBinding
 import com.example.tasklist.viewmodel.AddEditViewModel
@@ -51,6 +52,10 @@ class AddEditActivity : AppCompatActivity() {
         attrs: AttributeSet
     ): View? {
         val task = parent?.findViewById<EditText>(R.id.task)
+        task?.doOnTextChanged { text, _, _, _ ->
+            viewModel.text = text.toString()
+        }
+        task?.setText(viewModel.text)
 
         parent?.findViewById<ImageButton>(R.id.dateButton)?.setOnClickListener {
             enterDate(parent)

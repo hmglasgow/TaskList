@@ -5,6 +5,7 @@ import java.util.Calendar
 
 class AddEditViewModel : ViewModel() {
 
+    var text: String = ""
     var year: Int
     var month: Int
     var day: Int

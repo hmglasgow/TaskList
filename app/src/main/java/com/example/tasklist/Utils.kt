@@ -24,7 +24,7 @@ object Utils {
             10 -> "February"
             else  -> "December"
         }
-        return "$day $mon  $year"
+        return "$day $mon $year"
     }
 
     fun formatRepeat(repeat: Int): String {

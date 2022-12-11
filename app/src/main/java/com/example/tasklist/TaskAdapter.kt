@@ -19,6 +19,7 @@ class TaskAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = tasks[position]
         holder.descriptionView.text = task.description
+        holder.dateTimeView.text = "${Utils.formatDate(year = task.year, month = task.month, day = task.day)}, ${Utils.formatTime(hour = task.hour, minute = task.minute)}"
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(position)
         }
@@ -38,6 +39,7 @@ class TaskAdapter(
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         val descriptionView = itemView.findViewById<TextView>(R.id.listItemDescription)
+        val dateTimeView = itemView.findViewById<TextView>(R.id.listItemDateTime)
     }
 
 }

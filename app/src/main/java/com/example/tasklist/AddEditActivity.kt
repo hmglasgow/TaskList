@@ -104,9 +104,19 @@ class AddEditActivity : AppCompatActivity() {
 
         task?.let {
             findViewById<EditText>(R.id.taskEditView)?.setText(it.description)
+            viewModel.description = it.description
+
             findViewById<EditText>(R.id.dateEditView)?.setText(Utils.formatDate(year = it.year, month = it.month, day = it.day))
+            viewModel.year = it.year
+            viewModel.month = it.month
+            viewModel.day = it.day
+
             findViewById<EditText>(R.id.timeEditView)?.setText(Utils.formatTime(hour = it.hour, minute = it.minute))
+            viewModel.hour = it.hour
+            viewModel.minute = it.minute
+
             findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(repeat = it.repeat))
+            viewModel.repeat = it.repeat
         }
     }
 

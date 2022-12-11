@@ -1,5 +1,6 @@
 package com.example.tasklist
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -69,25 +70,43 @@ class AddEditActivity : AppCompatActivity() {
             enterRepeat(parent)
         }
 
-        parent?.findViewById<EditText>(R.id.date)?.setText(Utils.formatDate(viewModel.year, viewModel.month, viewModel.day))
+        parent?.findViewById<EditText>(R.id.date)
+            ?.setText(Utils.formatDate(viewModel.year, viewModel.month, viewModel.day))
         parent?.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(6, 0))
 
         return super.onCreateView(parent, name, context, attrs)
     }
 
     private fun enterRepeat(parent: View) {
-        TODO("Not yet implemented")
+        val builder = AlertDialog.Builder(parent.context)
+        builder.setTitle("Select repeat")
+        builder.setSingleChoiceItems(
+            arrayOf(
+                "No repeat",
+                "Once a day",
+                "Once a day (Mon to Fri)",
+                "Once a week",
+                "Once a month",
+                "Once a year"
+            ), viewModel.repeat
+        )
+        { dialog, item ->
+            viewModel.repeat = item
+            parent.findViewById<EditText>(R.id.repeat)?.setText(Utils.formatRepeat(item))
+            dialog.dismiss()
+        }
+        builder.create().show()
     }
 
     private fun enterTime(parent: View) {
-        TimePickerDialog(parent.context, {
-                _, hour, minute ->
-
-            viewModel.hour = hour
-            viewModel.minute = minute
-            parent.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(hour, minute))
-        },
-        viewModel.hour, viewModel.minute, true).show()
+        TimePickerDialog(
+            parent.context, { _, hour, minute ->
+                viewModel.hour = hour
+                viewModel.minute = minute
+                parent.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(hour, minute))
+            },
+            viewModel.hour, viewModel.minute, true
+        ).show()
     }
 
     private fun enterDate(parent: View) {

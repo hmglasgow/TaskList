@@ -11,6 +11,7 @@ class AddEditViewModel : ViewModel() {
     var day: Int
     var hour: Int
     var minute: Int
+    var repeat: Int = 0
 
     init {
         val cal = Calendar.getInstance()

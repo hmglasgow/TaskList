@@ -27,8 +27,8 @@ object Utils {
         return "$day $mon  $year"
     }
 
-    fun formatRepeat(item: Int): String {
-        return when (item) {
+    fun formatRepeat(repeat: Int): String {
+        return when (repeat) {
             0 -> "No repeat"
             1 -> "Once a day"
             2 -> "Once a day (Mon to Fri)"

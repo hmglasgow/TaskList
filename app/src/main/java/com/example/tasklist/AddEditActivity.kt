@@ -34,6 +34,8 @@ class AddEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        database = Database(this)
+
         viewModel = ViewModelProvider(this)[AddEditViewModel::class.java]
 
         binding = ActivityAddEditBinding.inflate(layoutInflater)
@@ -50,29 +52,28 @@ class AddEditActivity : AppCompatActivity() {
             }
         }
 
-        title = if (intent.extras == null) {
-            "Add"
-        } else {
-            "Edit"
-        }
-
-        intent.extras?.getInt("id")
-            ?.let { database.readTask(it) }
-            ?.let { task = it }
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         parent: View?,
         name: String,
         context: Context,
         attrs: AttributeSet
     ): View? {
-        val task = parent?.findViewById<EditText>(R.id.task)
-        task?.doOnTextChanged { text, _, _, _ ->
+
+        val view = super.onCreateView(parent, name, context, attrs)
+
+        title = if (intent.extras == null) {
+            "Add"
+        } else {
+            "Edit"
+        }
+
+        val taskEditView = parent?.findViewById<EditText>(R.id.taskEditView)
+        taskEditView?.doOnTextChanged { text, _, _, _ ->
             viewModel.description = text.toString()
         }
-        task?.setText(viewModel.description)
+        taskEditView?.setText(viewModel.description)
 
         parent?.findViewById<ImageButton>(R.id.dateButton)?.setOnClickListener {
             enterDate(parent)
@@ -86,13 +87,27 @@ class AddEditActivity : AppCompatActivity() {
             enterRepeat(parent)
         }
 
-        parent?.findViewById<EditText>(R.id.date)
+        parent?.findViewById<EditText>(R.id.dateEditView)
             ?.setText(Utils.formatDate(viewModel.year, viewModel.month, viewModel.day))
-        parent?.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(6, 0))
+        parent?.findViewById<EditText>(R.id.timeEditView)?.setText(Utils.formatTime(6, 0))
 
-        parent?.context?.let { database = Database(it) }
+        return view
+    }
 
-        return super.onCreateView(parent, name, context, attrs)
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun onResume() {
+        super.onResume()
+
+        intent.extras?.getInt("id")
+            ?.let { database.readTask(it) }
+            ?.let { task = it }
+
+        task?.let {
+            findViewById<EditText>(R.id.taskEditView)?.setText(it.description)
+            findViewById<EditText>(R.id.dateEditView)?.setText(Utils.formatDate(year = it.year, month = it.month, day = it.day))
+            findViewById<EditText>(R.id.timeEditView)?.setText(Utils.formatTime(hour = it.hour, minute = it.minute))
+            findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(repeat = it.repeat))
+        }
     }
 
     private fun enterRepeat(parent: View) {
@@ -110,7 +125,7 @@ class AddEditActivity : AppCompatActivity() {
         )
         { dialog, item ->
             viewModel.repeat = item
-            parent.findViewById<EditText>(R.id.repeat)?.setText(Utils.formatRepeat(item))
+            parent.findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(item))
             dialog.dismiss()
         }
         builder.create().show()
@@ -121,7 +136,7 @@ class AddEditActivity : AppCompatActivity() {
             parent.context, { _, hour, minute ->
                 viewModel.hour = hour
                 viewModel.minute = minute
-                parent.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(hour, minute))
+                parent.findViewById<EditText>(R.id.timeEditView)?.setText(Utils.formatTime(hour, minute))
             },
             viewModel.hour, viewModel.minute, true
         ).show()
@@ -132,21 +147,36 @@ class AddEditActivity : AppCompatActivity() {
             viewModel.year = year
             viewModel.month = month
             viewModel.day = day
-            parent.findViewById<EditText>(R.id.date)?.setText(Utils.formatDate(year, month, day))
+            parent.findViewById<EditText>(R.id.dateEditView)?.setText(Utils.formatDate(year, month, day))
         }, viewModel.year, viewModel.month, viewModel.day).show()
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun store() {
-        database.insert(
-            description = viewModel.description,
-            day = viewModel.day,
-            month = viewModel.month,
-            year = viewModel.year,
-            hour = viewModel.hour,
-            minute = viewModel.minute,
-            repeat = viewModel.repeat
-        )
+        if (task == null) {
+            database.insert(
+                description = viewModel.description,
+                day = viewModel.day,
+                month = viewModel.month,
+                year = viewModel.year,
+                hour = viewModel.hour,
+                minute = viewModel.minute,
+                repeat = viewModel.repeat
+            )
+        } else {
+            task?.let {
+                database.update(
+                    id = it.id,
+                    description = viewModel.description,
+                    day = viewModel.day,
+                    month = viewModel.month,
+                    year = viewModel.year,
+                    hour = viewModel.hour,
+                    minute = viewModel.minute,
+                    repeat = viewModel.repeat
+                )
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

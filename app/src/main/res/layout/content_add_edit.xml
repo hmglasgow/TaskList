@@ -7,7 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <EditText
-        android:id="@+id/task"
+        android:id="@+id/taskEditView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/date"
+            android:id="@+id/dateEditView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/time"
+            android:id="@+id/timeEditView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/repeat"
+            android:id="@+id/repeatEditView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

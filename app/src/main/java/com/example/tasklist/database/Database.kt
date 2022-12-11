@@ -81,7 +81,51 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
     fun readTask(id: Int) : Task? {
-        return null
+        val db = writableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_TASKS WHERE $KEY_ID = ?", arrayOf("$id"))
+        return if (cursor.moveToNext()) {
+            val description = cursor.getString(1)
+            val day = cursor.getInt(2)
+            val month = cursor.getInt(3)
+            val year = cursor.getInt(4)
+            val hour = cursor.getInt(5)
+            val minute = cursor.getInt(6)
+            val repeat = cursor.getInt(7)
+            Task(
+                id = id,
+                description = description,
+                day = day,
+                month = month,
+                year = year,
+                hour = hour,
+                minute = minute,
+                repeat = repeat
+            )
+        } else {
+            null
+        }
+    }
+
+    fun update(
+        id: Int,
+        description: String,
+        day: Int,
+        month: Int,
+        year: Int,
+        hour: Int,
+        minute: Int,
+        repeat: Int
+    ) {
+        val db = writableDatabase
+        val cValues = ContentValues()
+        cValues.put(KEY_DESCRIPTION, description)
+        cValues.put(KEY_DAY, day)
+        cValues.put(KEY_MONTH, month)
+        cValues.put(KEY_YEAR, year)
+        cValues.put(KEY_HOUR, hour)
+        cValues.put(KEY_MINUTE, minute)
+        cValues.put(KEY_REPEAT, repeat)
+        db.update(TABLE_TASKS, cValues, "$KEY_ID = ?", arrayOf("$id"))
     }
 
 }

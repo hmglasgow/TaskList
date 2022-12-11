@@ -11,7 +11,7 @@ import com.example.tasklist.data.Task
 
 @RequiresApi(Build.VERSION_CODES.P)
 
-const val DATABASE_NAME = "HJGFDCHGFkjhkj"
+const val DATABASE_NAME = "HJGFsfdgDCHGFkjhkj"
 const val TABLE_TASKS = "tasks"
 const val KEY_ID = "id"
 const val KEY_DESCRIPTION = "description"
@@ -26,7 +26,7 @@ const val KEY_REPEAT = "repeat"
 class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTable = ("CREATE TABLE $TABLE_TASKS($KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT, $KEY_DESCRIPTION TEXT,$KEY_DAY INTEGER, $KEY_MONTH INTEGER, $KEY_YEAR INTEGER, $KEY_HOUR INTEGER, $KEY_MINUTE INTEGER, $KEY_REPEAT INTEGER)")
+        val createTable = ("CREATE TABLE $TABLE_TASKS($KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT, $KEY_DESCRIPTION TEXT, $KEY_DAY INTEGER, $KEY_MONTH INTEGER, $KEY_YEAR INTEGER, $KEY_HOUR INTEGER, $KEY_MINUTE INTEGER, $KEY_REPEAT INTEGER)")
         db?.execSQL(createTable)
     }
 

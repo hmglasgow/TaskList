@@ -8,6 +8,9 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.tasklist.data.Task
 import com.example.tasklist.database.Database
 import com.example.tasklist.databinding.ActivityMainBinding
@@ -19,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: Database
 
     private val listOfTasks = mutableListOf<Task>()
+
+    private lateinit var adapter: TaskAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +37,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AddEditActivity::class.java)
             startActivity(intent)
         }
+
+        val recyclerview = findViewById<RecyclerView>(R.id.recycler)
+        adapter = TaskAdapter(listOfTasks)
+        recyclerview.layoutManager = LinearLayoutManager(this)
+        recyclerview.adapter = adapter
     }
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
@@ -48,6 +58,8 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
         super.onResume()
-        val tasks = database.readAll()
+        listOfTasks.clear()
+        listOfTasks.addAll(database.readAll())
+        adapter.notifyDataSetChanged()
     }
 }

@@ -39,7 +39,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         val recyclerview = findViewById<RecyclerView>(R.id.recycler)
-        adapter = TaskAdapter(listOfTasks)
+        val onItemClickListener = object : OnItemClickListener {
+            override fun onClick(position: Int) {
+                val q = ""
+            }
+        }
+        adapter = TaskAdapter(listOfTasks, onItemClickListener)
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = adapter
     }

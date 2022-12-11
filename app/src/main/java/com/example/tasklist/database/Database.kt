@@ -11,7 +11,7 @@ import com.example.tasklist.data.Task
 
 @RequiresApi(Build.VERSION_CODES.P)
 
-const val DATABASE_NAME = "HJGFsfdgDCHGFkjhkj"
+const val DATABASE_NAME = "kjhg"
 const val TABLE_TASKS = "tasks"
 const val KEY_ID = "id"
 const val KEY_DESCRIPTION = "description"

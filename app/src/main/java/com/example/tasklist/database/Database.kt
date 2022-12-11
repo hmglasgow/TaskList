@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.tasklist.data.Task
 
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -25,16 +26,7 @@ const val KEY_REPEAT = "repeat"
 class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTable = ("CREATE TABLE " + TABLE_TASKS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + KEY_DESCRIPTION + " TEXT,"
-                + KEY_DAY + " INTEGER,"
-                + KEY_MONTH + " INTEGER,"
-                + KEY_YEAR + " INTEGER,"
-                + KEY_HOUR + " INTEGER,"
-                + KEY_MINUTE + " INTEGER,"
-                + KEY_REPEAT + " INTEGER"
-                + ")")
+        val createTable = ("CREATE TABLE $TABLE_TASKS($KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT, $KEY_DESCRIPTION TEXT,$KEY_DAY INTEGER, $KEY_MONTH INTEGER, $KEY_YEAR INTEGER, $KEY_HOUR INTEGER, $KEY_MINUTE INTEGER, $KEY_REPEAT INTEGER)")
         db?.execSQL(createTable)
     }
 
@@ -47,7 +39,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         minute: Int,
         repeat: Int
     ) {
-        val db = this.writableDatabase
+        val db = writableDatabase
         val cValues = ContentValues()
         cValues.put(KEY_DESCRIPTION, description)
         cValues.put(KEY_DAY, day)
@@ -60,4 +52,32 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {}
+    fun readAll(): List<Task> {
+        val db = writableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_TASKS", emptyArray())
+        val results = mutableListOf<Task>()
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(0)
+            val description = cursor.getString(1)
+            val day = cursor.getInt(2)
+            val month = cursor.getInt(3)
+            val year = cursor.getInt(4)
+            val hour = cursor.getInt(5)
+            val minute = cursor.getInt(6)
+            val repeat = cursor.getInt(7)
+            val task = Task(
+                id = id,
+                description = description,
+                day = day,
+                month = month,
+                year = year,
+                hour = hour,
+                minute = minute,
+                repeat = repeat
+            )
+            results.add(task)
+        }
+        return results
+    }
+
 }

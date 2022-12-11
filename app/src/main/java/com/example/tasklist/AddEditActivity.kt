@@ -41,8 +41,10 @@ class AddEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.fab.setOnClickListener {
-            store()
-            finish()
+            if (viewModel.description.isNotEmpty()) {
+                store()
+                finish()
+            }
         }
 
         title = if (intent.extras == null) {
@@ -81,7 +83,7 @@ class AddEditActivity : AppCompatActivity() {
             ?.setText(Utils.formatDate(viewModel.year, viewModel.month, viewModel.day))
         parent?.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(6, 0))
 
-        parent?.context?.let {database = Database(it)}
+        parent?.context?.let { database = Database(it) }
 
         return super.onCreateView(parent, name, context, attrs)
     }

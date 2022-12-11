@@ -5,8 +5,8 @@ import java.util.*
 
 class AddEditViewModel : ViewModel() {
 
-    var id: String = UUID.randomUUID().toString()
-    var text: String = ""
+    var id: Int = 0
+    var description: String = ""
     var year: Int
     var month: Int
     var day: Int

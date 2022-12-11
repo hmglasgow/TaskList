@@ -27,6 +27,7 @@ class AddEditActivity : AppCompatActivity() {
 
     private lateinit var database: Database
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,9 +61,9 @@ class AddEditActivity : AppCompatActivity() {
     ): View? {
         val task = parent?.findViewById<EditText>(R.id.task)
         task?.doOnTextChanged { text, _, _, _ ->
-            viewModel.text = text.toString()
+            viewModel.description = text.toString()
         }
-        task?.setText(viewModel.text)
+        task?.setText(viewModel.description)
 
         parent?.findViewById<ImageButton>(R.id.dateButton)?.setOnClickListener {
             enterDate(parent)
@@ -126,7 +127,17 @@ class AddEditActivity : AppCompatActivity() {
         }, viewModel.year, viewModel.month, viewModel.day).show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun store() {
+        database.insert(
+            description = viewModel.description,
+            day = viewModel.day,
+            month = viewModel.month,
+            year = viewModel.year,
+            hour = viewModel.hour,
+            minute = viewModel.minute,
+            repeat = viewModel.repeat
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

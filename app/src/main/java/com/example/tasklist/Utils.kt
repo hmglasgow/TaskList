@@ -2,6 +2,12 @@ package com.example.tasklist
 
 object Utils {
 
+    fun formatTime(hour: Int, minute: Int) : String {
+        val formattedHour = if (hour < 10 ) "0$hour" else hour
+        val formattedMinute = if (minute < 10 ) "0$minute" else minute
+        return "$formattedHour:$formattedMinute"
+    }
+
     fun formatDate(year: Int, month: Int, day: Int) : String {
         val mon = when (month)
         {

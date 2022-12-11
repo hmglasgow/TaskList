@@ -1,6 +1,7 @@
 package com.example.tasklist
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
@@ -33,6 +34,7 @@ class AddEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.fab.setOnClickListener {
+            store()
             finish()
         }
 
@@ -51,10 +53,6 @@ class AddEditActivity : AppCompatActivity() {
     ): View? {
         val task = parent?.findViewById<EditText>(R.id.task)
 
-        parent?.findViewById<Button>(R.id.store)?.setOnClickListener {
-            store(parent)
-        }
-
         parent?.findViewById<ImageButton>(R.id.dateButton)?.setOnClickListener {
             enterDate(parent)
         }
@@ -68,6 +66,7 @@ class AddEditActivity : AppCompatActivity() {
         }
 
         parent?.findViewById<EditText>(R.id.date)?.setText(Utils.formatDate(viewModel.year, viewModel.month, viewModel.day))
+        parent?.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(6, 0))
 
         return super.onCreateView(parent, name, context, attrs)
     }
@@ -77,7 +76,14 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     private fun enterTime(parent: View) {
-        TODO("Not yet implemented")
+        TimePickerDialog(parent.context, {
+                _, hour, minute ->
+
+            viewModel.hour = hour
+            viewModel.minute = minute
+            parent.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(hour, minute))
+        },
+        viewModel.hour, viewModel.minute, true).show()
     }
 
     private fun enterDate(parent: View) {
@@ -89,9 +95,7 @@ class AddEditActivity : AppCompatActivity() {
         }, viewModel.year, viewModel.month, viewModel.day).show()
     }
 
-    private fun store(view: View) {
-        val task = view.findViewById<EditText>(R.id.task).text.toString()
-        val bob = ""
+    private fun store() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

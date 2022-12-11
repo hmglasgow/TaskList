@@ -5,9 +5,11 @@ import java.util.Calendar
 
 class AddEditViewModel : ViewModel() {
 
-    var year = 2022
-    var month = 4
-    var day = 23
+    var year: Int
+    var month: Int
+    var day: Int
+    var hour: Int
+    var minute: Int
 
     init {
         val cal = Calendar.getInstance()
@@ -15,5 +17,7 @@ class AddEditViewModel : ViewModel() {
         year = cal.get(Calendar.YEAR)
         month = cal.get(Calendar.MONTH)
         day = cal.get(Calendar.DATE)
+        hour = 6
+        minute = 0
     }
 }

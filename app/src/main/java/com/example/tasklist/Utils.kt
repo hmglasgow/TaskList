@@ -1,5 +1,7 @@
 package com.example.tasklist
 
+import java.util.*
+
 object Utils {
 
     fun formatTime(hour: Int, minute: Int) : String {
@@ -13,18 +15,33 @@ object Utils {
         {
             0 -> "January"
             1 -> "February"
-            2 -> "February"
-            3 -> "February"
-            4 -> "February"
-            5 -> "February"
-            6 -> "February"
-            7 -> "February"
-            8 -> "February"
-            9 -> "February"
-            10 -> "February"
+            2 -> "March"
+            3 -> "April"
+            4 -> "May"
+            5 -> "June"
+            6 -> "July"
+            7 -> "August"
+            8 -> "September"
+            9 -> "October"
+            10 -> "November"
             else  -> "December"
         }
-        return "$day $mon $year"
+
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month)
+        cal.set(Calendar.DATE, day)
+        val dy = when(cal.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.MONDAY -> "Monday"
+            Calendar.TUESDAY -> "Tuesday"
+            Calendar.WEDNESDAY -> "Wednesday"
+            Calendar.THURSDAY -> "Thursday"
+            Calendar.FRIDAY -> "Friday"
+            Calendar.SATURDAY -> "Saturday"
+            else -> "Sunday"
+        }
+
+        return "$dy, $day $mon $year"
     }
 
     fun formatRepeat(repeat: Int): String {

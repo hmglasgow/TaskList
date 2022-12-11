@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:hint="@string/task"
         android:inputType="textPersonName" />
 
@@ -28,7 +30,8 @@
             android:hint="@string/date"
             android:inputType="textPersonName" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/dateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_date" />
@@ -49,7 +52,8 @@
             android:hint="@string/time"
             android:inputType="textPersonName" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/timeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_time" />
@@ -70,11 +74,19 @@
             android:hint="@string/no_repeat"
             android:inputType="textPersonName" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/repeatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_refresh" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Store" />
 
 </LinearLayout>

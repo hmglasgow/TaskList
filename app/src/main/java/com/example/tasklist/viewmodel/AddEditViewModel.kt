@@ -1,10 +1,11 @@
 package com.example.tasklist.viewmodel
 
 import androidx.lifecycle.ViewModel
-import java.util.Calendar
+import java.util.*
 
 class AddEditViewModel : ViewModel() {
 
+    var id: String = UUID.randomUUID().toString()
     var text: String = ""
     var year: Int
     var month: Int

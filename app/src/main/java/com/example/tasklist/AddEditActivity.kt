@@ -4,15 +4,18 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import com.example.tasklist.database.Database
 import com.example.tasklist.databinding.ActivityAddEditBinding
 import com.example.tasklist.viewmodel.AddEditViewModel
 
@@ -21,6 +24,8 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddEditBinding
 
     private lateinit var viewModel: AddEditViewModel
+
+    private lateinit var database: Database
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +51,7 @@ class AddEditActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         parent: View?,
         name: String,
@@ -73,6 +79,8 @@ class AddEditActivity : AppCompatActivity() {
         parent?.findViewById<EditText>(R.id.date)
             ?.setText(Utils.formatDate(viewModel.year, viewModel.month, viewModel.day))
         parent?.findViewById<EditText>(R.id.time)?.setText(Utils.formatTime(6, 0))
+
+        parent?.context?.let {database = Database(it)}
 
         return super.onCreateView(parent, name, context, attrs)
     }

@@ -20,7 +20,10 @@ class TaskAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = tasks[position]
         holder.descriptionView.text = task.description
-        holder.dateTimeView.text = "${Utils.formatDate(year = task.year, month = task.month, day = task.day)}, ${Utils.formatTime(hour = task.hour, minute = task.minute)}"
+        val dateBit = Utils.formatDate(year = task.year, month = task.month, day = task.day)
+        val timeBit = Utils.formatTime(hour = task.hour, minute = task.minute)
+        val repeatBit = if (task.repeat == 0) "" else "(rpt)"
+        holder.dateTimeView.text = "$dateBit, $timeBit $repeatBit"
         holder.dateTimeView.setTextColor(if (task.overdue()) Color.RED else Color.BLACK)
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(position)

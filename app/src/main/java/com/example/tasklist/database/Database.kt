@@ -30,24 +30,16 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         db?.execSQL(createTable)
     }
 
-    fun insert(
-        description: String,
-        day: Int,
-        month: Int,
-        year: Int,
-        hour: Int,
-        minute: Int,
-        repeat: Int
-    ) {
+    fun insert(task: Task) {
         val db = writableDatabase
         val cValues = ContentValues()
-        cValues.put(KEY_DESCRIPTION, description)
-        cValues.put(KEY_DAY, day)
-        cValues.put(KEY_MONTH, month)
-        cValues.put(KEY_YEAR, year)
-        cValues.put(KEY_HOUR, hour)
-        cValues.put(KEY_MINUTE, minute)
-        cValues.put(KEY_REPEAT, repeat)
+        cValues.put(KEY_DESCRIPTION, task.description)
+        cValues.put(KEY_DAY, task.day)
+        cValues.put(KEY_MONTH, task.month)
+        cValues.put(KEY_YEAR, task.year)
+        cValues.put(KEY_HOUR, task.hour)
+        cValues.put(KEY_MINUTE, task.minute)
+        cValues.put(KEY_REPEAT, task.repeat)
         db.insert(TABLE_TASKS, null, cValues)
     }
 

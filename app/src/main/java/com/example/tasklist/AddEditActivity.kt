@@ -165,13 +165,16 @@ class AddEditActivity : AppCompatActivity() {
     private fun store() {
         if (task == null) {
             database.insert(
-                description = viewModel.description,
-                day = viewModel.day,
-                month = viewModel.month,
-                year = viewModel.year,
-                hour = viewModel.hour,
-                minute = viewModel.minute,
-                repeat = viewModel.repeat
+                Task(
+                    id = -1,
+                    description = viewModel.description,
+                    day = viewModel.day,
+                    month = viewModel.month,
+                    year = viewModel.year,
+                    hour = viewModel.hour,
+                    minute = viewModel.minute,
+                    repeat = viewModel.repeat
+                )
             )
         } else {
             task?.let {

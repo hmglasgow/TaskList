@@ -54,7 +54,9 @@ class MainActivity : AppCompatActivity() {
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = adapter
 
-        ItemTouchHelper(MyCallback(adapter, this, database, listOfTasks)).attachToRecyclerView(recyclerview)
+        ItemTouchHelper(MyCallback(adapter, this, database, listOfTasks)).attachToRecyclerView(
+            recyclerview
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -94,28 +96,34 @@ class MainActivity : AppCompatActivity() {
         @RequiresApi(Build.VERSION_CODES.P)
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
-            val itemId = listOfTasks[position].id
+            val task = listOfTasks[position]
             if (direction == ItemTouchHelper.RIGHT) {
-                uptickTask(itemId)
-                adapter.notifyDataSetChanged()
+                if (task.repeat == 0) {
+                    database.delete(task.id)
+                    listOfTasks.clear()
+                    listOfTasks.addAll(database.readAll())
+                    adapter.notifyDataSetChanged()
+                } else {
+                    database.delete(task.id)
+                    database.insert(task.uptick())
+                    listOfTasks.clear()
+                    listOfTasks.addAll(database.readAll())
+                    adapter.notifyDataSetChanged()
+                }
             } else if (direction == ItemTouchHelper.LEFT) {
-                askDeleteTask(itemId)
+                askDeleteTask(task.id)
             }
         }
 
-        private fun uptickTask(itemId: Int) {
-
-        }
-
         @RequiresApi(Build.VERSION_CODES.P)
-        private fun askDeleteTask(itemId: Int) {
+        private fun askDeleteTask(taskId: Int) {
             val listener = DialogInterface.OnClickListener { _, which ->
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE -> {
-                        database.delete(itemId)
+                        database.delete(taskId)
+                        adapter.notifyDataSetChanged()
                         listOfTasks.clear()
                         listOfTasks.addAll(database.readAll())
-                        adapter.notifyDataSetChanged()
                     }
                     DialogInterface.BUTTON_NEGATIVE -> {
                         adapter.notifyDataSetChanged()
@@ -123,10 +131,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             AlertDialog.Builder(context)
-            .setMessage("Delete task?")
-            .setPositiveButton("Delete", listener)
-            .setNegativeButton("Cancel", listener)
-            .show()
+                .setMessage("Delete task?")
+                .setPositiveButton("Delete", listener)
+                .setNegativeButton("Cancel", listener)
+                .show()
         }
     }
 }

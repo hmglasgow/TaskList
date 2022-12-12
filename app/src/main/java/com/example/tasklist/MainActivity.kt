@@ -8,9 +8,10 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.tasklist.data.Task
 import com.example.tasklist.database.Database
 import com.example.tasklist.databinding.ActivityMainBinding
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         adapter = TaskAdapter(listOfTasks, onItemClickListener)
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = adapter
+
+        ItemTouchHelper(MyCallback(adapter)).attachToRecyclerView(recyclerview)
     }
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
@@ -69,5 +72,21 @@ class MainActivity : AppCompatActivity() {
         listOfTasks.clear()
         listOfTasks.addAll(database.readAll())
         adapter.notifyDataSetChanged()
+    }
+
+    class MyCallback(private val adapter: TaskAdapter) : SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val id = viewHolder.itemView.id
+
+            adapter.notifyDataSetChanged()
+        }
     }
 }

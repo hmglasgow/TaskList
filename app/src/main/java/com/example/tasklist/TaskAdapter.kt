@@ -1,5 +1,6 @@
 package com.example.tasklist
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class TaskAdapter(
         val task = tasks[position]
         holder.descriptionView.text = task.description
         holder.dateTimeView.text = "${Utils.formatDate(year = task.year, month = task.month, day = task.day)}, ${Utils.formatTime(hour = task.hour, minute = task.minute)}"
+        holder.dateTimeView.setTextColor(if (task.overdue()) Color.RED else Color.BLACK)
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(position)
         }

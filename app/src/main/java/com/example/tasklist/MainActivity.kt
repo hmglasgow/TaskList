@@ -1,12 +1,14 @@
 package com.example.tasklist
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
@@ -52,8 +54,9 @@ class MainActivity : AppCompatActivity() {
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = adapter
 
-        ItemTouchHelper(MyCallback(adapter)).attachToRecyclerView(recyclerview)
+        ItemTouchHelper(MyCallback(adapter, this, database, listOfTasks)).attachToRecyclerView(recyclerview)
     }
+
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         parent: View?,
@@ -74,7 +77,12 @@ class MainActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    class MyCallback(private val adapter: TaskAdapter) : SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    class MyCallback(
+        private val adapter: TaskAdapter,
+        private val context: Context,
+        private val database: Database,
+        private val listOfTasks: MutableList<Task>
+    ) : SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -83,10 +91,42 @@ class MainActivity : AppCompatActivity() {
             return false
         }
 
+        @RequiresApi(Build.VERSION_CODES.P)
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val id = viewHolder.itemView.id
+            val position = viewHolder.adapterPosition
+            val itemId = listOfTasks[position].id
+            if (direction == ItemTouchHelper.RIGHT) {
+                uptickTask(itemId)
+                adapter.notifyDataSetChanged()
+            } else if (direction == ItemTouchHelper.LEFT) {
+                askDeleteTask(itemId)
+            }
+        }
 
-            adapter.notifyDataSetChanged()
+        private fun uptickTask(itemId: Int) {
+
+        }
+
+        @RequiresApi(Build.VERSION_CODES.P)
+        private fun askDeleteTask(itemId: Int) {
+            val listener = DialogInterface.OnClickListener { _, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        database.delete(itemId)
+                        listOfTasks.clear()
+                        listOfTasks.addAll(database.readAll())
+                        adapter.notifyDataSetChanged()
+                    }
+                    DialogInterface.BUTTON_NEGATIVE -> {
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+            AlertDialog.Builder(context)
+            .setMessage("Delete task?")
+            .setPositiveButton("Delete", listener)
+            .setNegativeButton("Cancel", listener)
+            .show()
         }
     }
 }

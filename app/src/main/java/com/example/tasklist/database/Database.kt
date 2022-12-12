@@ -128,4 +128,9 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         db.update(TABLE_TASKS, cValues, "$KEY_ID = ?", arrayOf("$id"))
     }
 
+    fun delete(id: Int) {
+        val db = writableDatabase
+        db.delete(TABLE_TASKS, "$KEY_ID = ?", arrayOf("$id"))
+    }
+
 }

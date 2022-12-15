@@ -69,7 +69,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             )
             results.add(task)
         }
-        return results
+        return results.sortedBy { it.calculateDate() }
     }
 
     fun readTask(id: Int) : Task? {

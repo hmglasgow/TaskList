@@ -173,7 +173,9 @@ class AddEditActivity : AppCompatActivity() {
                     year = viewModel.year,
                     hour = viewModel.hour,
                     minute = viewModel.minute,
-                    repeat = viewModel.repeat
+                    repeat = viewModel.repeat,
+                    otherType = viewModel.otherType,
+                    otherNumber = viewModel.otherNumber
                 )
             )
         } else {
@@ -186,7 +188,9 @@ class AddEditActivity : AppCompatActivity() {
                     year = viewModel.year,
                     hour = viewModel.hour,
                     minute = viewModel.minute,
-                    repeat = viewModel.repeat
+                    repeat = viewModel.repeat,
+                    otherType = viewModel.otherType,
+                    otherNumber = viewModel.otherNumber
                 )
             }
         }

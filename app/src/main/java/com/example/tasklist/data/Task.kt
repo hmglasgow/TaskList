@@ -10,31 +10,50 @@ data class Task(
     var day: Int,
     var hour: Int,
     var minute: Int,
-    var repeat: Int
+    var repeat: Int,
+    var otherType: Int,
+    var otherNumber: Int
 ) {
 
+    companion object {
+        val repeatNone = 0
+        val repeatDaily = 1
+        val repeatWeekDays = 2
+        val repeatWeekly = 3
+        val repeatMonthly = 4
+        val repeatYearly = 5
+        val repeatOther = 6
+
+        val otherDays = 0
+        val otherWeeks = 1
+        val otherMonths = 2
+        val otherYears = 2
+    }
     fun uptick(): Task {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, day)
         when (repeat) {
-            1 -> {
+            repeatDaily -> {
                 cal.add(Calendar.DATE, 1)
             }
-            2 -> {
+            repeatWeekDays -> {
                 do {
                     cal.add(Calendar.DATE, 1)
                 } while (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
             }
-            3 -> {
+            repeatWeekly -> {
                 cal.add(Calendar.DATE, 7)
             }
-            4 -> {
+            repeatMonthly -> {
                 cal.add(Calendar.MONTH, 1)
             }
-            5 -> {
+            repeatYearly -> {
                 cal.add(Calendar.YEAR, 1)
+            }
+            repeatOther -> {
+                // Todo
             }
         }
         return Task(
@@ -45,7 +64,9 @@ data class Task(
             day = cal.get(Calendar.DATE),
             hour = hour,
             minute = minute,
-            repeat = repeat
+            repeat = repeat,
+            otherType = otherType,
+            otherNumber = otherNumber
         )
     }
 

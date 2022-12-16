@@ -16,19 +16,20 @@ data class Task(
 ) {
 
     companion object {
-        val repeatNone = 0
-        val repeatDaily = 1
-        val repeatWeekDays = 2
-        val repeatWeekly = 3
-        val repeatMonthly = 4
-        val repeatYearly = 5
-        val repeatOther = 6
+        const val repeatNone = 0
+        const val repeatDaily = 1
+        const val repeatWeekDays = 2
+        const val repeatWeekly = 3
+        const val repeatMonthly = 4
+        const val repeatYearly = 5
+        const val repeatOther = 6
 
-        val otherDays = 0
-        val otherWeeks = 1
-        val otherMonths = 2
-        val otherYears = 2
+        const val otherDays = 0
+        const val otherWeeks = 1
+        const val otherMonths = 2
+        const val otherYears = 3
     }
+
     fun uptick(): Task {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)

@@ -106,37 +106,48 @@ class AddEditActivity : AppCompatActivity() {
             ?.let { task = it }
 
         task?.let {
-            findViewById<EditText>(R.id.taskEditView)?.setText(it.description)
             viewModel.description = it.description
-
-            findViewById<EditText>(R.id.dateEditView)?.setText(
-                Utils.formatDate(
-                    year = it.year,
-                    month = it.month,
-                    day = it.day
-                )
-            )
             viewModel.year = it.year
             viewModel.month = it.month
             viewModel.day = it.day
-
-            findViewById<EditText>(R.id.timeEditView)?.setText(
-                Utils.formatTime(
-                    hour = it.hour,
-                    minute = it.minute
-                )
-            )
             viewModel.hour = it.hour
             viewModel.minute = it.minute
-
-            findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(repeat = it.repeat))
-            viewModel.repeat = it.repeat
-
-            findViewById<LinearLayout>(R.id.otherLayout)?.visibility =
-                if (it.repeat == Task.repeatOther) VISIBLE else GONE
             viewModel.otherType = it.otherType
             viewModel.otherNumber = it.otherNumber
         }
+
+        findViewById<EditText>(R.id.taskEditView)?.setText(viewModel.description)
+
+        findViewById<EditText>(R.id.timeEditView)?.setText(
+            Utils.formatTime(
+                hour = viewModel.hour,
+                minute = viewModel.minute
+            )
+        )
+
+        findViewById<EditText>(R.id.dateEditView)?.setText(
+            Utils.formatDate(
+                year = viewModel.year,
+                month = viewModel.month,
+                day = viewModel.day
+            )
+        )
+
+        findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(repeat = viewModel.repeat))
+        viewModel.repeat = viewModel.repeat
+
+        findViewById<LinearLayout>(R.id.otherLayout)?.visibility =
+            if (viewModel.repeat == Task.repeatOther) VISIBLE else GONE
+
+        val type = when (viewModel.otherType) {
+            Task.otherDays -> "day"
+            Task.otherWeeks -> "week"
+            Task.otherMonths -> "month"
+            Task.otherYears -> "year"
+            else -> "?"
+        }
+        val text = "Every ${viewModel.otherNumber} $type${if(viewModel.otherNumber == 1) "" else "s"}"
+        findViewById<EditText>(R.id.otherEditView)?.setText(text)
     }
 
     private fun enterRepeat(parent: View) {

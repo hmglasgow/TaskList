@@ -82,4 +82,27 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/otherLayout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/otherEditView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textPersonName" />
+
+        <ImageButton
+            android:id="@+id/otherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_other" />
+
+    </LinearLayout>
+
 </LinearLayout>

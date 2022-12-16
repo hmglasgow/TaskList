@@ -9,8 +9,11 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
@@ -106,17 +109,33 @@ class AddEditActivity : AppCompatActivity() {
             findViewById<EditText>(R.id.taskEditView)?.setText(it.description)
             viewModel.description = it.description
 
-            findViewById<EditText>(R.id.dateEditView)?.setText(Utils.formatDate(year = it.year, month = it.month, day = it.day))
+            findViewById<EditText>(R.id.dateEditView)?.setText(
+                Utils.formatDate(
+                    year = it.year,
+                    month = it.month,
+                    day = it.day
+                )
+            )
             viewModel.year = it.year
             viewModel.month = it.month
             viewModel.day = it.day
 
-            findViewById<EditText>(R.id.timeEditView)?.setText(Utils.formatTime(hour = it.hour, minute = it.minute))
+            findViewById<EditText>(R.id.timeEditView)?.setText(
+                Utils.formatTime(
+                    hour = it.hour,
+                    minute = it.minute
+                )
+            )
             viewModel.hour = it.hour
             viewModel.minute = it.minute
 
             findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(repeat = it.repeat))
             viewModel.repeat = it.repeat
+
+            findViewById<LinearLayout>(R.id.otherLayout)?.visibility =
+                if (it.repeat == Task.repeatOther) VISIBLE else GONE
+            viewModel.otherType = it.otherType
+            viewModel.otherNumber = it.otherNumber
         }
     }
 
@@ -130,15 +149,22 @@ class AddEditActivity : AppCompatActivity() {
                 "Once a day (Mon to Fri)",
                 "Once a week",
                 "Once a month",
-                "Once a year"
+                "Once a year",
+                "Other..."
             ), viewModel.repeat
         )
         { dialog, item ->
             viewModel.repeat = item
             parent.findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(item))
+            setupOtherLayout(parent)
             dialog.dismiss()
         }
         builder.create().show()
+    }
+
+    private fun setupOtherLayout(parent: View) {
+        parent.findViewById<LinearLayout>(R.id.otherLayout)?.visibility =
+            if (viewModel.repeat == Task.repeatOther) VISIBLE else GONE
     }
 
     private fun enterTime(parent: View) {
@@ -146,7 +172,8 @@ class AddEditActivity : AppCompatActivity() {
             parent.context, { _, hour, minute ->
                 viewModel.hour = hour
                 viewModel.minute = minute
-                parent.findViewById<EditText>(R.id.timeEditView)?.setText(Utils.formatTime(hour, minute))
+                parent.findViewById<EditText>(R.id.timeEditView)
+                    ?.setText(Utils.formatTime(hour, minute))
             },
             viewModel.hour, viewModel.minute, true
         ).show()
@@ -157,7 +184,8 @@ class AddEditActivity : AppCompatActivity() {
             viewModel.year = year
             viewModel.month = month
             viewModel.day = day
-            parent.findViewById<EditText>(R.id.dateEditView)?.setText(Utils.formatDate(year, month, day))
+            parent.findViewById<EditText>(R.id.dateEditView)
+                ?.setText(Utils.formatDate(year, month, day))
         }, viewModel.year, viewModel.month, viewModel.day).show()
     }
 

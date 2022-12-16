@@ -13,7 +13,7 @@ class AddEditViewModel : ViewModel() {
     var day: Int
     var hour: Int = 6
     var minute: Int = 0
-    var repeat: Int = Task.repeatOther
+    var repeat: Int = Task.repeatNone
     var otherType: Int = Task.otherWeeks
     var otherNumber: Int = 2
 

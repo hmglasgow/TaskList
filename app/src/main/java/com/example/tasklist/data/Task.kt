@@ -54,7 +54,17 @@ data class Task(
                 cal.add(Calendar.YEAR, 1)
             }
             repeatOther -> {
-                // Todo
+                var otherNumberLocal = otherNumber
+                val otherTypeLocal = when (otherType) {
+                    otherDays -> Calendar.DATE
+                    otherWeeks -> {
+                        otherNumberLocal *= 7
+                        Calendar.DATE
+                    }
+                    otherMonths -> Calendar.MONTH
+                    else -> Calendar.YEAR
+                }
+                cal.add(otherTypeLocal, otherNumberLocal)
             }
         }
         return Task(

@@ -106,7 +106,7 @@ class AddEditActivity : AppCompatActivity() {
         val numberAdapter = ArrayAdapter(
             applicationContext,
             android.R.layout.simple_spinner_dropdown_item,
-            arrayOf("2", "3", "4", "5", "6", "7", "8", "9")
+            arrayOf("two", "three", "four", "five", "six", "seven", "eight", "nine")
         )
         val numberSpinner = dialog.findViewById<Spinner>(R.id.dialogOtherNumberSpinner)
         numberSpinner.adapter = numberAdapter

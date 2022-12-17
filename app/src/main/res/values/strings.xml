@@ -5,4 +5,7 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="no_repeat">No repeat</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="every">Every</string>
 </resources>

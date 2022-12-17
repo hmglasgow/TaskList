@@ -2,6 +2,7 @@ package com.example.tasklist
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Build
@@ -9,11 +10,8 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.LinearLayout
+import android.view.View.*
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
@@ -94,7 +92,47 @@ class AddEditActivity : AppCompatActivity() {
             ?.setText(Utils.formatDate(viewModel.year, viewModel.month, viewModel.day))
         parent?.findViewById<EditText>(R.id.timeEditView)?.setText(Utils.formatTime(6, 0))
 
+        parent?.findViewById<ImageButton>(R.id.otherButton)?.setOnClickListener {
+            enterOther()
+        }
+
         return view
+    }
+
+    private fun enterOther() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_other)
+
+        val numberAdapter = ArrayAdapter(
+            applicationContext,
+            android.R.layout.simple_spinner_dropdown_item,
+            arrayOf("2", "3", "4", "5", "6", "7", "8", "9")
+        )
+        val numberSpinner = dialog.findViewById<Spinner>(R.id.dialogOtherNumberSpinner)
+        numberSpinner.adapter = numberAdapter
+        numberSpinner.setSelection(viewModel.otherNumber - 2)
+
+        val typeAdapter = ArrayAdapter(
+            applicationContext,
+            android.R.layout.simple_spinner_dropdown_item,
+            arrayOf("days", "weeks", "months", "years")
+        )
+        val typeSpinner = dialog.findViewById<Spinner>(R.id.dialogOtherTypeSpinner)
+        typeSpinner.adapter = typeAdapter
+        typeSpinner.setSelection(viewModel.otherType)
+
+        dialog.findViewById<Button>(R.id.dialogOtherCancelButton).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<Button>(R.id.dialogOtherSaveButton).setOnClickListener {
+            viewModel.otherNumber = numberSpinner.selectedItemPosition + 2
+            viewModel.otherType = typeSpinner.selectedItemPosition
+            redisplay()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -112,10 +150,15 @@ class AddEditActivity : AppCompatActivity() {
             viewModel.day = it.day
             viewModel.hour = it.hour
             viewModel.minute = it.minute
+            viewModel.repeat = it.repeat
             viewModel.otherType = it.otherType
             viewModel.otherNumber = it.otherNumber
         }
 
+        redisplay()
+    }
+
+    private fun redisplay() {
         findViewById<EditText>(R.id.taskEditView)?.setText(viewModel.description)
 
         findViewById<EditText>(R.id.timeEditView)?.setText(
@@ -134,7 +177,6 @@ class AddEditActivity : AppCompatActivity() {
         )
 
         findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(repeat = viewModel.repeat))
-        viewModel.repeat = viewModel.repeat
 
         findViewById<LinearLayout>(R.id.otherLayout)?.visibility =
             if (viewModel.repeat == Task.repeatOther) VISIBLE else GONE
@@ -146,7 +188,8 @@ class AddEditActivity : AppCompatActivity() {
             Task.otherYears -> "year"
             else -> "?"
         }
-        val text = "Every ${viewModel.otherNumber} $type${if(viewModel.otherNumber == 1) "" else "s"}"
+        val text =
+            "Every ${viewModel.otherNumber} $type${if (viewModel.otherNumber == 1) "" else "s"}"
         findViewById<EditText>(R.id.otherEditView)?.setText(text)
     }
 

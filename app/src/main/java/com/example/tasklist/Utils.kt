@@ -1,5 +1,6 @@
 package com.example.tasklist
 
+import com.example.tasklist.data.Task
 import java.util.*
 
 object Utils {
@@ -31,7 +32,7 @@ object Utils {
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, day)
-        val dy = when(cal.get(Calendar.DAY_OF_WEEK)) {
+        val dow = when(cal.get(Calendar.DAY_OF_WEEK)) {
             Calendar.MONDAY -> "Monday"
             Calendar.TUESDAY -> "Tuesday"
             Calendar.WEDNESDAY -> "Wednesday"
@@ -41,17 +42,20 @@ object Utils {
             else -> "Sunday"
         }
 
-        return "$dy, $day $mon $year"
+        return "$dow, $day $mon $year"
     }
 
     fun formatRepeat(repeat: Int): String {
         return when (repeat) {
-            0 -> "No repeat"
-            1 -> "Once a day"
-            2 -> "Once a day (Mon to Fri)"
-            3 -> "Once a week"
-            4 -> "Once a month"
-            else -> "Once a year"
+            Task.repeatNone -> "No repeat"
+            Task.repeatDaily -> "Once a day"
+            Task.repeatWeekDays -> "Once a day (Mon to Fri)"
+            Task.repeatWeekly -> "Once a week"
+            Task.repeatMonthly -> "Once a month"
+            Task.repeatYearly -> "Once a year"
+            Task.repeatOther -> "Other"
+            Task.repeatSpecific -> "Specific"
+            else -> "???"
         }
     }
 }

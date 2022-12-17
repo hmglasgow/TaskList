@@ -10,7 +10,7 @@ import com.example.tasklist.data.Task
 
 @RequiresApi(Build.VERSION_CODES.P)
 
-const val DATABASE_NAME = "kjhgddsffd"
+const val DATABASE_NAME = "kjhgdfghdfghfdgd"
 const val TABLE_TASKS = "tasks"
 const val KEY_ID = "id"
 const val KEY_DESCRIPTION = "description"
@@ -22,13 +22,14 @@ const val KEY_MINUTE = "minute"
 const val KEY_REPEAT = "repeat"
 const val KEY_OTHER_TYPE = "otherType"
 const val KEY_OTHER_NUMBER = "otherNumber"
+const val KEY_SPECIFIC_NUMBER = "specificNumber"
 
 @RequiresApi(Build.VERSION_CODES.P)
 class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable =
-            ("CREATE TABLE $TABLE_TASKS($KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT, $KEY_DESCRIPTION TEXT, $KEY_DAY INTEGER, $KEY_MONTH INTEGER, $KEY_YEAR INTEGER, $KEY_HOUR INTEGER, $KEY_MINUTE INTEGER, $KEY_REPEAT INTEGER, $KEY_OTHER_TYPE INTEGER, $KEY_OTHER_NUMBER INTEGER)")
+            ("CREATE TABLE $TABLE_TASKS($KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT, $KEY_DESCRIPTION TEXT, $KEY_DAY INTEGER, $KEY_MONTH INTEGER, $KEY_YEAR INTEGER, $KEY_HOUR INTEGER, $KEY_MINUTE INTEGER, $KEY_REPEAT INTEGER, $KEY_OTHER_TYPE INTEGER, $KEY_OTHER_NUMBER INTEGER, $KEY_SPECIFIC_NUMBER INTEGER)")
         db?.execSQL(createTable)
     }
 
@@ -44,6 +45,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         cValues.put(KEY_REPEAT, task.repeat)
         cValues.put(KEY_OTHER_TYPE, task.otherType)
         cValues.put(KEY_OTHER_NUMBER, task.otherNumber)
+        cValues.put(KEY_SPECIFIC_NUMBER, task.specificNumber)
         db.insert(TABLE_TASKS, null, cValues)
     }
 
@@ -63,6 +65,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             val repeat = cursor.getInt(7)
             val otherType = cursor.getInt(8)
             val otherNumber = cursor.getInt(9)
+            val specificNumber = cursor.getInt(10)
             val task = Task(
                 id = id,
                 description = description,
@@ -74,6 +77,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 repeat = repeat,
                 otherType = otherType,
                 otherNumber = otherNumber,
+                specificNumber = specificNumber
             )
             results.add(task)
         }
@@ -93,6 +97,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             val repeat = cursor.getInt(7)
             val otherType = cursor.getInt(8)
             val otherNumber = cursor.getInt(9)
+            val specificNumber = cursor.getInt(10)
             Task(
                 id = id,
                 description = description,
@@ -103,7 +108,8 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 minute = minute,
                 repeat = repeat,
                 otherType = otherType,
-                otherNumber = otherNumber
+                otherNumber = otherNumber,
+                specificNumber = specificNumber
             )
         } else {
             null
@@ -120,7 +126,8 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         minute: Int,
         repeat: Int,
         otherType: Int,
-        otherNumber: Int
+        otherNumber: Int,
+        specificNumber: Int
     ) {
         val db = writableDatabase
         val cValues = ContentValues()
@@ -133,6 +140,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         cValues.put(KEY_REPEAT, repeat)
         cValues.put(KEY_OTHER_TYPE, otherType)
         cValues.put(KEY_OTHER_NUMBER, otherNumber)
+        cValues.put(KEY_SPECIFIC_NUMBER, specificNumber)
         db.update(TABLE_TASKS, cValues, "$KEY_ID = ?", arrayOf("$id"))
     }
 

@@ -153,6 +153,7 @@ class AddEditActivity : AppCompatActivity() {
             viewModel.repeat = it.repeat
             viewModel.otherType = it.otherType
             viewModel.otherNumber = it.otherNumber
+            viewModel.specificNumber = it.specificNumber
         }
 
         redisplay()
@@ -204,7 +205,8 @@ class AddEditActivity : AppCompatActivity() {
                 "Once a week",
                 "Once a month",
                 "Once a year",
-                "Other..."
+                "Other...",
+                "Specific...",
             ), viewModel.repeat
         )
         { dialog, item ->
@@ -257,7 +259,8 @@ class AddEditActivity : AppCompatActivity() {
                     minute = viewModel.minute,
                     repeat = viewModel.repeat,
                     otherType = viewModel.otherType,
-                    otherNumber = viewModel.otherNumber
+                    otherNumber = viewModel.otherNumber,
+                    specificNumber = viewModel.specificNumber
                 )
             )
         } else {
@@ -272,7 +275,8 @@ class AddEditActivity : AppCompatActivity() {
                     minute = viewModel.minute,
                     repeat = viewModel.repeat,
                     otherType = viewModel.otherType,
-                    otherNumber = viewModel.otherNumber
+                    otherNumber = viewModel.otherNumber,
+                    specificNumber = viewModel.specificNumber
                 )
             }
         }

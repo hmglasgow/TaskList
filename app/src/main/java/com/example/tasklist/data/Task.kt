@@ -12,7 +12,8 @@ data class Task(
     var minute: Int,
     var repeat: Int,
     var otherType: Int,
-    var otherNumber: Int
+    var otherNumber: Int,
+    var specificNumber: Int
 ) {
 
     companion object {
@@ -23,6 +24,7 @@ data class Task(
         const val repeatMonthly = 4
         const val repeatYearly = 5
         const val repeatOther = 6
+        const val repeatSpecific = 7
 
         const val otherDays = 0
         const val otherWeeks = 1
@@ -66,6 +68,9 @@ data class Task(
                 }
                 cal.add(otherTypeLocal, otherNumberLocal)
             }
+            repeatSpecific -> {
+                // todo
+            }
         }
         return Task(
             id = id,
@@ -77,7 +82,8 @@ data class Task(
             minute = minute,
             repeat = repeat,
             otherType = otherType,
-            otherNumber = otherNumber
+            otherNumber = otherNumber,
+            specificNumber = specificNumber
         )
     }
 

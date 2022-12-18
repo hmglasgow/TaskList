@@ -16,7 +16,7 @@ class AddEditViewModel : ViewModel() {
     var repeat: Int = Task.repeatNone
     var otherType: Int = Task.otherWeeks
     var otherNumber: Int = 2
-    var specificNumber: Int = 0
+    var specificNumber: Int = 31
 
     init {
         val cal = Calendar.getInstance()

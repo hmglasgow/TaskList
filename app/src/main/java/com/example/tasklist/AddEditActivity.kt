@@ -52,7 +52,6 @@ class AddEditActivity : AppCompatActivity() {
                 finish()
             }
         }
-
     }
 
     override fun onCreateView(
@@ -195,6 +194,53 @@ class AddEditActivity : AppCompatActivity() {
         val text =
             "Every ${viewModel.otherNumber} $type${if (viewModel.otherNumber == 1) "" else "s"}"
         findViewById<EditText>(R.id.otherEditView)?.setText(text)
+
+        var monday = false
+        var tuesday = false
+        var wednesday = false
+        var thursday = false
+        var friday = false
+        var saturday = false
+        var sunday = false
+
+        var workingNumber = viewModel.specificNumber
+        if (workingNumber >= 64) {
+            sunday = true
+            workingNumber -= 64
+        }
+        if (workingNumber >= 32) {
+            saturday = true
+            workingNumber -= 32
+        }
+        if (workingNumber >= 16) {
+            friday = true
+            workingNumber -= 16
+        }
+        if (workingNumber >= 8) {
+            thursday = true
+            workingNumber -= 8
+        }
+        if (workingNumber >= 4) {
+            wednesday = true
+            workingNumber -= 4
+        }
+        if (workingNumber >= 2) {
+            tuesday = true
+            workingNumber -= 2
+        }
+        if (workingNumber == 1) {
+            monday = true
+        }
+
+        val sb = StringBuilder()
+        if (monday) sb.append("Mo ")
+        if (tuesday) sb.append("Tu ")
+        if (wednesday) sb.append("We ")
+        if (thursday) sb.append("Th ")
+        if (friday) sb.append("Fr ")
+        if (saturday) sb.append("Sa ")
+        if (sunday) sb.append("Su ")
+        findViewById<EditText>(R.id.specificEditView)?.setText(sb.toString().trim())
     }
 
     private fun enterRepeat(parent: View) {

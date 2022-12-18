@@ -69,38 +69,73 @@ data class Task(
                 cal.add(otherTypeLocal, otherNumberLocal)
             }
             repeatSpecific -> {
-                if (specificNumber > 0) {
-                    var gotIt = false
-                    cal.add(Calendar.DATE, 1)
-                    do {
-                        when (cal.get(Calendar.DAY_OF_WEEK)) {
-                            Calendar.MONDAY -> {
-                                if (specificNumber.mod(1) == 1) gotIt = true
-                            }
-                            Calendar.TUESDAY -> {
-                                if (specificNumber.mod(2) == 2) gotIt = true
-                            }
-                            Calendar.WEDNESDAY -> {
-                                if (specificNumber.mod(4) == 4) gotIt = true
-                            }
-                            Calendar.THURSDAY -> {
-                                if (specificNumber.mod(8) == 8) gotIt = true
-                            }
-                            Calendar.FRIDAY -> {
-                                if (specificNumber.mod(16) == 16) gotIt = true
-                            }
-                            Calendar.SATURDAY -> {
-                                if (specificNumber.mod(32) == 32) gotIt = true
-                            }
-                            Calendar.SUNDAY -> {
-                                if (specificNumber.mod(64) == 64) gotIt = true
-                            }
-                        }
-                        if (!gotIt) {
-                            cal.add(Calendar.DATE, 1)
-                        }
-                    } while (!gotIt)
+                var monday = false
+                var tuesday = false
+                var wednesday = false
+                var thursday = false
+                var friday = false
+                var saturday = false
+                var sunday = false
+
+                var workingNumber = specificNumber
+                if (workingNumber >= 64) {
+                    sunday = true
+                    workingNumber -= 64
                 }
+                if (workingNumber >= 32) {
+                    saturday = true
+                    workingNumber -= 32
+                }
+                if (workingNumber >= 16) {
+                    friday = true
+                    workingNumber -= 16
+                }
+                if (workingNumber >= 8) {
+                    thursday = true
+                    workingNumber -= 8
+                }
+                if (workingNumber >= 4) {
+                    wednesday = true
+                    workingNumber -= 4
+                }
+                if (workingNumber >= 2) {
+                    tuesday = true
+                    workingNumber -= 2
+                }
+                if (workingNumber == 1) {
+                    monday = true
+                }
+
+                var gotIt = false
+                cal.add(Calendar.DATE, 1)
+                do {
+                    when (cal.get(Calendar.DAY_OF_WEEK)) {
+                        Calendar.MONDAY -> {
+                            if (monday) gotIt = true
+                        }
+                        Calendar.TUESDAY -> {
+                            if (tuesday) gotIt = true
+                        }
+                        Calendar.WEDNESDAY -> {
+                            if (wednesday) gotIt = true
+                        }
+                        Calendar.THURSDAY -> {
+                            if (thursday) gotIt = true
+                        }
+                        Calendar.FRIDAY -> {
+                            if (friday) gotIt = true
+                        }
+                        Calendar.SATURDAY -> {
+                            if (saturday) gotIt = true
+                        }
+                        Calendar.SUNDAY -> {
+                            if (sunday) gotIt = true
+                        }
+                    }
+                    if (!gotIt) {
+                        cal.add(Calendar.DATE, 1)
+                    }
+                } while (!gotIt)
             }
         }
         return Task(
@@ -118,7 +153,7 @@ data class Task(
         )
     }
 
-    fun calculateDate() : Date {
+    fun calculateDate(): Date {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)

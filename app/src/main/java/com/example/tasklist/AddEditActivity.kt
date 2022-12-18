@@ -182,6 +182,9 @@ class AddEditActivity : AppCompatActivity() {
         findViewById<LinearLayout>(R.id.otherLayout)?.visibility =
             if (viewModel.repeat == Task.repeatOther) VISIBLE else GONE
 
+        findViewById<LinearLayout>(R.id.specificLayout)?.visibility =
+            if (viewModel.repeat == Task.repeatSpecific) VISIBLE else GONE
+
         val type = when (viewModel.otherType) {
             Task.otherDays -> "day"
             Task.otherWeeks -> "week"
@@ -213,6 +216,7 @@ class AddEditActivity : AppCompatActivity() {
             viewModel.repeat = item
             parent.findViewById<EditText>(R.id.repeatEditView)?.setText(Utils.formatRepeat(item))
             setupOtherLayout(parent)
+            setupSpecificLayout(parent)
             dialog.dismiss()
         }
         builder.create().show()
@@ -221,6 +225,11 @@ class AddEditActivity : AppCompatActivity() {
     private fun setupOtherLayout(parent: View) {
         parent.findViewById<LinearLayout>(R.id.otherLayout)?.visibility =
             if (viewModel.repeat == Task.repeatOther) VISIBLE else GONE
+    }
+
+    private fun setupSpecificLayout(parent: View) {
+        parent.findViewById<LinearLayout>(R.id.specificLayout)?.visibility =
+            if (viewModel.repeat == Task.repeatSpecific) VISIBLE else GONE
     }
 
     private fun enterTime(parent: View) {

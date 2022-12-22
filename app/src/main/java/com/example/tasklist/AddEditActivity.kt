@@ -95,7 +95,104 @@ class AddEditActivity : AppCompatActivity() {
             enterOther()
         }
 
+        parent?.findViewById<ImageButton>(R.id.specificButton)?.setOnClickListener {
+            enterSpecific()
+        }
+
         return view
+    }
+
+    private fun enterSpecific() {
+        val items = arrayOf<CharSequence>(
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        )
+        var monday = false
+        var tuesday = false
+        var wednesday = false
+        var thursday = false
+        var friday = false
+        var saturday = false
+        var sunday = false
+
+        var workingNumber = viewModel.specificNumber
+        if (workingNumber >= 64) {
+            sunday = true
+            workingNumber -= 64
+        }
+        if (workingNumber >= 32) {
+            saturday = true
+            workingNumber -= 32
+        }
+        if (workingNumber >= 16) {
+            friday = true
+            workingNumber -= 16
+        }
+        if (workingNumber >= 8) {
+            thursday = true
+            workingNumber -= 8
+        }
+        if (workingNumber >= 4) {
+            wednesday = true
+            workingNumber -= 4
+        }
+        if (workingNumber >= 2) {
+            tuesday = true
+            workingNumber -= 2
+        }
+        if (workingNumber == 1) {
+            monday = true
+        }
+
+        val itemsChecked =
+            booleanArrayOf(monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+        AlertDialog.Builder(this)
+            .setPositiveButton(R.string.save) { _, _ ->
+                redisplay()
+            }
+            .setMultiChoiceItems(items, itemsChecked) { b, c, d ->
+                when (c) {
+                    0 -> {
+                        monday = d
+                    }
+                    1 -> {
+                        tuesday = d
+                    }
+                    2 -> {
+                        wednesday = d
+                    }
+                    3 -> {
+                        thursday = d
+                    }
+                    4 -> {
+                        friday = d
+                    }
+                    5 -> {
+                        saturday = d
+                    }
+                    6 -> {
+                        sunday = d
+                    }
+                }
+
+                 val specificNumber = (if (monday) 1 else 0) +
+                        (if (tuesday) 2 else 0) +
+                        (if (wednesday) 4 else 0) +
+                        (if (thursday) 8 else 0) +
+                        (if (friday) 16 else 0) +
+                        (if (saturday) 32 else 0) +
+                        (if (sunday) 64 else 0)
+                if (specificNumber > 0) {
+                    viewModel.specificNumber = specificNumber
+                }
+            }
+            .show()
+
     }
 
     private fun enterOther() {

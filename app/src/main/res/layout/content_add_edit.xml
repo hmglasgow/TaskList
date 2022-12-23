@@ -14,7 +14,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:hint="@string/task"
-        android:inputType="textPersonName" />
+        android:inputType="textCapSentences|textPersonName" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +27,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:enabled="false"
-            android:hint="@string/date"
-            android:inputType="textPersonName" />
+            android:hint="@string/date" />
 
         <ImageButton
             android:id="@+id/dateButton"
@@ -49,8 +48,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:enabled="false"
-            android:hint="@string/time"
-            android:inputType="textPersonName" />
+            android:hint="@string/time" />
 
         <ImageButton
             android:id="@+id/timeButton"
@@ -71,8 +69,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:enabled="false"
-            android:hint="@string/no_repeat"
-            android:inputType="textPersonName" />
+            android:hint="@string/no_repeat" />
 
         <ImageButton
             android:id="@+id/repeatButton"
@@ -117,14 +114,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:enabled="false"
-            android:inputType="textPersonName" />
+            android:enabled="false" />
 
         <ImageButton
             android:id="@+id/specificButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_speciffic" />
+            android:src="@drawable/ic_specific" />
 
     </LinearLayout>
 

@@ -155,7 +155,7 @@ class AddEditActivity : AppCompatActivity() {
             .setPositiveButton(R.string.save) { _, _ ->
                 redisplay()
             }
-            .setMultiChoiceItems(items, itemsChecked) { b, c, d ->
+            .setMultiChoiceItems(items, itemsChecked) { _, c, d ->
                 when (c) {
                     0 -> {
                         monday = d

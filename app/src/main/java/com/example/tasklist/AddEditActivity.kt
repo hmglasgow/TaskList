@@ -11,6 +11,7 @@ import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import android.view.View.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -64,6 +65,11 @@ class AddEditActivity : AppCompatActivity() {
         val view = super.onCreateView(parent, name, context, attrs)
 
         title = if (intent.extras == null) {
+            parent?.findViewById<EditText>(R.id.taskEditView)?.requestFocus()
+            val imm: InputMethodManager =
+                getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+
             "Add"
         } else {
             "Edit"
@@ -180,7 +186,7 @@ class AddEditActivity : AppCompatActivity() {
                     }
                 }
 
-                 val specificNumber = (if (monday) 1 else 0) +
+                val specificNumber = (if (monday) 1 else 0) +
                         (if (tuesday) 2 else 0) +
                         (if (wednesday) 4 else 0) +
                         (if (thursday) 8 else 0) +

@@ -72,11 +72,6 @@ class AddEditActivity : AppCompatActivity() {
         val view = super.onCreateView(parent, name, context, attrs)
 
         title = if (intent.extras == null) {
-            parent?.findViewById<EditText>(R.id.taskEditView)?.requestFocus()
-            val imm: InputMethodManager =
-                getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-
             "Add"
         } else {
             "Edit"

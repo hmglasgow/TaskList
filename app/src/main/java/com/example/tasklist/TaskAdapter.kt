@@ -19,7 +19,8 @@ class TaskAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = tasks[position]
-        holder.descriptionView.text = task.description
+        val asterisk = if (task.today()) "* " else ""
+        holder.descriptionView.text = "$asterisk${task.description}"
         val dateBit = Utils.formatDate(year = task.year, month = task.month, day = task.day)
         val timeBit = Utils.formatTime(hour = task.hour, minute = task.minute)
         val repeatBit = if (task.repeat == 0) "" else "(rpt)"
@@ -43,8 +44,9 @@ class TaskAdapter(
 
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        val descriptionView = itemView.findViewById<TextView>(R.id.listItemDescription)
-        val dateTimeView = itemView.findViewById<TextView>(R.id.listItemDateTime)
+        val descriptionView: TextView = itemView.findViewById(R.id.listItemDescription)
+        val dateTimeView: TextView = itemView.findViewById(R.id.listItemDateTime)
     }
 
 }
+

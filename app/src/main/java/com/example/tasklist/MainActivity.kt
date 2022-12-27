@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         listOfTasks.clear()
         listOfTasks.addAll(database.readAll())
         adapter.notifyDataSetChanged()
+        findViewById<RecyclerView>(R.id.recycler).layoutManager?.scrollToPosition(0)
     }
 
     class MyCallback(
@@ -112,8 +113,12 @@ class MainActivity : AppCompatActivity() {
                 val itemView = viewHolder.itemView
                 val bg = ColorDrawable()
                 when ((dX > 0)) {
-                    true -> { bg.color = Color.rgb(0, 128, 0) }
-                    false -> { bg.color = Color.RED }
+                    true -> {
+                        bg.color = Color.rgb(0, 128, 0)
+                    }
+                    false -> {
+                        bg.color = Color.RED
+                    }
                 }
                 bg.bounds = Rect(itemView.left, itemView.top, itemView.right, itemView.bottom)
                 bg.draw(c)

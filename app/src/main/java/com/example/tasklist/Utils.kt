@@ -5,15 +5,14 @@ import java.util.*
 
 object Utils {
 
-    fun formatTime(hour: Int, minute: Int) : String {
-        val formattedHour = if (hour < 10 ) "0$hour" else hour
-        val formattedMinute = if (minute < 10 ) "0$minute" else minute
+    fun formatTime(hour: Int, minute: Int): String {
+        val formattedHour = if (hour < 10) "0$hour" else hour
+        val formattedMinute = if (minute < 10) "0$minute" else minute
         return "$formattedHour:$formattedMinute"
     }
 
-    fun formatDate(year: Int, month: Int, day: Int) : String {
-        val mon = when (month)
-        {
+    fun formatDate(year: Int, month: Int, day: Int): String {
+        val mon = when (month) {
             0 -> "January"
             1 -> "February"
             2 -> "March"
@@ -25,14 +24,14 @@ object Utils {
             8 -> "September"
             9 -> "October"
             10 -> "November"
-            else  -> "December"
+            else -> "December"
         }
 
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, day)
-        val dow = when(cal.get(Calendar.DAY_OF_WEEK)) {
+        val dow = when (cal.get(Calendar.DAY_OF_WEEK)) {
             Calendar.MONDAY -> "Monday"
             Calendar.TUESDAY -> "Tuesday"
             Calendar.WEDNESDAY -> "Wednesday"

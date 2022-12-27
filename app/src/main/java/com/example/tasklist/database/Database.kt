@@ -84,7 +84,7 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return results
             .sortedWith(
                 compareBy<Task> { it.calculateDate() }
-                .thenBy { it.description }
+                    .thenBy { it.description }
             )
     }
 

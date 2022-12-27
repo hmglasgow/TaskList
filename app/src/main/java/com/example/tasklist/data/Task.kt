@@ -173,12 +173,26 @@ data class Task(
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, day)
         cal.set(Calendar.HOUR_OF_DAY, hour)
-        cal.set(Calendar.DATE, day)
         cal.set(Calendar.SECOND, 0)
         cal.set(Calendar.MILLISECOND, 0)
 
         val then = cal.time
         return now.after(then)
+    }
+
+    fun today(): Boolean {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY, hour)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
+        val now = cal.time
+
+        cal.set(Calendar.DATE, day)
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month)
+
+        val then = cal.time
+        return now == then
     }
 
 }

@@ -81,7 +81,11 @@ class Database(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             )
             results.add(task)
         }
-        return results.sortedBy { it.calculateDate() }
+        return results
+            .sortedWith(
+                compareBy<Task> { it.calculateDate() }
+                .thenBy { it.description }
+            )
     }
 
     fun readTask(id: Int): Task? {

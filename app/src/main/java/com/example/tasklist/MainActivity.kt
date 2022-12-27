@@ -3,6 +3,10 @@ package com.example.tasklist
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
@@ -91,6 +95,29 @@ class MainActivity : AppCompatActivity() {
             target: RecyclerView.ViewHolder
         ): Boolean {
             return false
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE && isCurrentlyActive) {
+                val itemView = viewHolder.itemView
+                val bg = ColorDrawable()
+                when ((dX > 0)) {
+                    true -> { bg.color = Color.rgb(0, 128, 0) }
+                    false -> { bg.color = Color.RED }
+                }
+                bg.bounds = Rect(itemView.left, itemView.top, itemView.right, itemView.bottom)
+                bg.draw(c)
+            }
         }
 
         @RequiresApi(Build.VERSION_CODES.P)

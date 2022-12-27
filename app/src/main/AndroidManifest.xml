@@ -16,7 +16,8 @@
             android:name=".AddEditActivity"
             android:exported="false"
             android:label="@string/title_activity_add_edit"
-            android:theme="@style/Theme.TaskList.NoActionBar">
+            android:theme="@style/Theme.TaskList.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

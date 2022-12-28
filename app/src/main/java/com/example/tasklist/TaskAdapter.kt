@@ -25,7 +25,7 @@ class TaskAdapter(
         val timeBit = Utils.formatTime(hour = task.hour, minute = task.minute)
         val repeatBit = if (task.repeat == 0) "" else "(rpt)"
         holder.dateTimeView.text = "$dateBit, $timeBit $repeatBit"
-        holder.dateTimeView.setTextColor(if (task.overdue()) Color.RED else Color.BLACK)
+        holder.dateTimeView.setTextColor(if (task.overdue()) Color.rgb(192, 0, 0) else Color.BLACK)
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(position)
         }
